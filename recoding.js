@@ -1,5 +1,5 @@
 function setup() {
-	// noStroke();
+	noStroke();
 
 	createCanvas(800, 800);
 	radius = 10;
@@ -53,12 +53,12 @@ function drawLines(){
 	for (let i = 0; i < nbLines; i++) {
 		for (let ii = 0; ii < nbDots; ii++) {
 			if (line[i][ii]){
-				// if(random()<(1-(0.95*(ii>nbDots/2))-(0.05*(ii<nbDots/2)))){
-				// 	fill(100,65,150);
-				// } else {
-				// 	fill(175,175,0);
-				// }
-				fill(255,255,255);
+				if(random()<(1-(0.95*(ii>nbDots/2))-(0.05*(ii<nbDots/2)))){
+					fill(100,65,150);
+				} else {
+					fill(175,175,0);
+				}
+				// fill(255,255,255);
 			} else {
 				fill(0,0,0);
 			}
