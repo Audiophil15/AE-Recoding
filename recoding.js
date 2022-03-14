@@ -1,9 +1,11 @@
 function setup() {
+	// noStroke();
+
 	createCanvas(800, 800);
 	radius = 10;
 
 	nbDots = 80
-	nbLines = 1;
+	nbLines = nbDots;
 
 	createLines();
 
@@ -19,8 +21,8 @@ function draw() {
 }
 
 function colorproba(x){
-	min = 0
-	factorshift = 0
+	min = 0.5;
+	factorshift = 1;
 	return (sin(x)+1+min)/(2+min+factorshift);
 }
 
@@ -58,7 +60,7 @@ function drawLines(){
 				// }
 				fill(255,255,255);
 			} else {
-				fill(0,0,0)
+				fill(0,0,0);
 			}
 			ellipse((-(nbDots/2)+ii+1/2)*radius, (-(nbLines/2)+i+1/2)*radius, radius);
 		}
