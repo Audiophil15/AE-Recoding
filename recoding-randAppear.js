@@ -1,6 +1,6 @@
 function setup() {
 	noStroke();
-	noLoop();
+	// noLoop();
 	createCanvas(800, 800);
 	radius = 10;
 
@@ -8,21 +8,28 @@ function setup() {
 	colG = [255,211,202,6  ,94 ]
 	colB = [255,89 ,254,6  ,219]
 
+	satprmatrix = [[0.7, 0.3],[0.3, 0.7]];
+	drawedDotsX = []
+	drawedDotsY = []
+
 	color = [];
+	saturation = [];
+
 	nbDots = 80;
 	nbLines = nbDots;
-	satprmatrix = [[0.7, 0.3],[0.3, 0.7]];
 	createLines();
-	
-}
-
-function draw() {
-	background(255);
-	translate(width / 2, height / 2);
 	addcolor();
 	choosePalette();
 	chooseSaturation();
+	
+	background(255);
+}
+
+function draw() {
+	translate(width / 2, height / 2);
 	drawLines();
+	// console.log(saturation);
+	
 }
 
 function colorproba(x){
@@ -42,6 +49,7 @@ function nextSaturation(currentSat){
 function createLines(){
 	for (let i = 0; i<nbLines; i++){
 		color.push([]);
+		saturation.push([]);
 	}
 }
 
@@ -50,16 +58,14 @@ function addcolor(){
 		for (let ii = 0; ii < nbDots; ii++) {
 			p = colorproba(ii*4*PI/nbDots-PI/2);
 			r = random();
-			console.log(r<p);
 			if (r<p){
-				color[i][ii] = 1;
+				color[i].push(1);
 			} else {
-				color[i][ii] = 0;
+				color[i].push(0);
 			}
-			// text(r, 0, -400+35*ii);
-			// text(p, 0, -390+35*ii);
-			// text(p-r, 0, -380+35*ii);
-			// ellipse(-40*radius+ii*radius, 300*p, radius);
+			if (color[i].length>nbDots){
+				color[i].shift()
+			}
 		}
 	}
 }
@@ -81,9 +87,9 @@ function choosePalette(){
 function chooseSaturation(){
 	for (let i = 0; i < nbLines; i++) {
 		for (let ii = 0; ii < nbDots; ii++) {
-			if (color[i][ii]){
-				
-				color[i][ii] += nextSaturation(getEnvSaturation(i, ii));
+			saturation[i].push(nextSaturation(getEnvSaturation(i, ii)));
+			if (saturation[i].length > nbDots){
+				saturation[i].shift();
 			}
 		}
 	}
@@ -94,8 +100,8 @@ function getEnvSaturation(x, y){
 	desat=0;
 	for (let i=x-1; i<x+2; i++){
 		for (let j=y-1; j<y+2;j++){
-			if (i>=0 && j>=0 && i<nbLines && j<nbDots && (i==x && j==y) && color[i][j]!=0){
-				if(color[i][j]>10){
+			if (i>=0 && j>=0 && i<nbLines && j<saturation[0].length && (i==x && j==y) && saturation[i][j]!=0){
+				if(saturation[i][j]==2){
 					sat += 1;
 				} else {
 					desat += 1;
@@ -111,12 +117,26 @@ function getEnvSaturation(x, y){
 }
 
 function drawLines(){
-	for (let i = 0; i < nbLines; i++) {
-		for (let ii = 0; ii < nbDots; ii++) {
-			val = color[i][ii];
-			console.log(val);
+
+	// for (let i = 0; i < nbLines; i++) {
+	// 	for (let ii = 0; ii < nbDots; ii++) {
+			randX = floor(random(0,nbDots));
+			randY = floor(random(0,nbLines));
+			// while (drawedDotsX.indexOf(randX)!=-1){
+			// 	randX = floor(random(0,nbDots));
+			// }
+			// while(drawedDotsY.indexOf(randY)!=-1) {
+			// 	randY = floor(random(0,nbLines));
+			// }
+			drawedDotsX.push(randX);
+			drawedDotsY.push(randY);
+			val = color[randY][randX];
+			// console.log(val);
+			if (val>0){
+				val += saturation[randY][randX];
+			}
 			fill(colR[val],colG[val],colB[val]);
-			ellipse((-(nbDots/2)+ii+1/2)*radius, (-(nbDots/2)+i+1/2)*radius, radius);
-		}
-	}
+			ellipse((-(nbDots/2)+randX+1/2)*radius, (-(nbDots/2)+randY+1/2)*radius, radius);
+	// 	}
+	// }
 }
