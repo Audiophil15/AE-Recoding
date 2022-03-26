@@ -12,7 +12,7 @@ function setup() {
 	drawedDotsX = []
 	drawedDotsY = []
 
-	color = [];
+	colors = [];
 	saturation = [];
 
 	nbDots = 80;
@@ -21,7 +21,6 @@ function setup() {
 	addcolor();
 	choosePalette();
 	chooseSaturation();
-	
 	background(255);
 }
 
@@ -29,7 +28,6 @@ function draw() {
 	translate(width / 2, height / 2);
 	drawLines();
 	// console.log(saturation);
-	
 }
 
 function colorproba(x){
@@ -48,7 +46,7 @@ function nextSaturation(currentSat){
 
 function createLines(){
 	for (let i = 0; i<nbLines; i++){
-		color.push([]);
+		colors.push([]);
 		saturation.push([]);
 	}
 }
@@ -59,12 +57,12 @@ function addcolor(){
 			p = colorproba(ii*4*PI/nbDots-PI/2);
 			r = random();
 			if (r<p){
-				color[i].push(1);
+				colors[i].push(1);
 			} else {
-				color[i].push(0);
+				colors[i].push(0);
 			}
-			if (color[i].length>nbDots){
-				color[i].shift()
+			if (colors[i].length>nbDots){
+				colors[i].shift()
 			}
 		}
 	}
@@ -73,11 +71,11 @@ function addcolor(){
 function choosePalette(){
 	for (let i = 0; i < nbLines; i++) {
 		for (let ii = 0; ii < nbDots; ii++) {
-			if (color[i][ii]){
+			if (colors[i][ii]){
 				if(random()<(1-(0.95*(ii>nbDots/2))-(0.05*(ii<nbDots/2)))){
-					color[i][ii] = 1;
+					colors[i][ii] = 1;
 				} else {
-					color[i][ii] = 2;
+					colors[i][ii] = 2;
 				}
 			}
 		}
@@ -130,7 +128,7 @@ function drawLines(){
 			// }
 			drawedDotsX.push(randX);
 			drawedDotsY.push(randY);
-			val = color[randY][randX];
+			val = colors[randY][randX];
 			// console.log(val);
 			if (val>0){
 				val += saturation[randY][randX];

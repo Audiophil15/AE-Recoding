@@ -1,18 +1,21 @@
 function setup() {
-	noStroke();
+	noFill();
 	noLoop();
 	createCanvas(800, 800);
-	radius = 10;
+	radius = [10, 25,15,30,5];
 
-	colR = [255,255,254,208,219]
-	colG = [255,211,202,6  ,94 ]
-	colB = [255,89 ,254,6  ,219]
+	// colR = [255,255,254,208,219]
+	// colG = [255,211,202,6  ,94 ]
+	// colB = [255,89 ,254,6  ,219]
+	// stroke(colR[val],colG[val],colB[val]);
+	stroke(0,0,0);
 
 	colors = [];
 	nbDots = 80;
 	nbLines = nbDots;
 	satprmatrix = [[0.7, 0.3],[0.3, 0.7]];
 	createLines();
+
 }
 
 function draw() {
@@ -22,10 +25,6 @@ function draw() {
 	choosePalette();
 	chooseSaturation();
 	drawLines();
-}
-
-function scaleValue(x, inmin, inmax, outmin, outmax){
-	return (x-inmin)/(inmax-inmin)*(outmax-outmin)+outmin
 }
 
 function colorproba(x){
@@ -118,8 +117,7 @@ function drawLines(){
 		for (let ii = 0; ii < nbDots; ii++) {
 			val = colors[i][ii];
 			console.log(val);
-			fill(colR[val],colG[val],colB[val]);
-			ellipse((-(nbDots/2)+ii+1/2)*radius, (-(nbDots/2)+i+1/2)*radius, radius);
+			ellipse((-(nbDots/2)+ii+1/2)*radius[0], (-(nbDots/2)+i+1/2)*radius[0], radius[val]);
 		}
 	}
 }

@@ -10,14 +10,13 @@ function setup() {
 
 	satprmatrix = [[0.7, 0.3],[0.3, 0.7]];
 
-	color = [];
+	colors = [];
 	saturation = [];
 
 	x = 0;
 	nbDots = 20;
 	nbLines = nbDots;
 	createLines();
-	
 }
 
 function draw() {
@@ -29,7 +28,6 @@ function draw() {
 	chooseSaturation();
 	drawLines();
 	console.log(saturation);
-	
 }
 
 function colorproba(x){
@@ -48,7 +46,7 @@ function nextSaturation(currentSat){
 
 function createLines(){
 	for (let i = 0; i<nbLines; i++){
-		color.push([]);
+		colors.push([]);
 		saturation.push([]);
 	}
 }
@@ -58,31 +56,31 @@ function addcolor(){
 		p = colorproba(x%nbDots*4*PI/nbDots-PI/2);
 		r = random();
 		if (r<p){
-			color[i].push(1);
+			colors[i].push(1);
 		} else {
-			color[i].push(0);
+			colors[i].push(0);
 		}
-		if (color[i].length>nbDots){
-			color[i].shift()
+		if (colors[i].length>nbDots){
+			colors[i].shift()
 		}
 	}
 }
 
 function choosePalette(){
-	xpos = color[0].length-1
+	xpos = colors[0].length-1
 	for (let i = 0; i < nbLines; i++) {
-		if (color[i][xpos]){
+		if (colors[i][xpos]){
 			if(random()<(1-(0.95*(x%nbDots>nbDots/2))-(0.05*(x%nbDots<nbDots/2)))){
-				color[i][xpos] = 1;
+				colors[i][xpos] = 1;
 			} else {
-				color[i][xpos] = 2;
+				colors[i][xpos] = 2;
 			}
 		}
 	}
 }
 
 function chooseSaturation(){
-	xpos = color[0].length-1
+	xpos = colors[0].length-1
 	for (let i = 0; i < nbLines; i++) {
 		saturation[i].push(nextSaturation(getEnvSaturation(i, xpos)));
 		if (saturation[i].length > nbDots){
@@ -114,8 +112,8 @@ function getEnvSaturation(x, y){
 
 function drawLines(){
 	for (let i = 0; i < nbLines; i++) {
-		for (let ii = 0; ii < color[0].length; ii++) {
-			val = color[i][ii];
+		for (let ii = 0; ii < colors[0].length; ii++) {
+			val = colors[i][ii];
 			console.log(val);
 			if (val>0){
 				val += saturation[i][ii];

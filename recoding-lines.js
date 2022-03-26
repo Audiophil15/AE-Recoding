@@ -1,5 +1,6 @@
 function setup() {
-	noStroke();
+	// noStroke();
+	noFill();
 	noLoop();
 	createCanvas(800, 800);
 	radius = 10;
@@ -8,14 +9,18 @@ function setup() {
 	colG = [255,211,202,6  ,94 ]
 	colB = [255,89 ,254,6  ,219]
 
+	linefuncs = [none, diaglr, diagUlbr, diagub, diagUrbl]
+
 	colors = [];
 	nbDots = 80;
 	nbLines = nbDots;
 	satprmatrix = [[0.7, 0.3],[0.3, 0.7]];
 	createLines();
+
 }
 
 function draw() {
+	strokeWeight(2);
 	background(255);
 	translate(width / 2, height / 2);
 	addcolor();
@@ -32,6 +37,26 @@ function colorproba(x){
     ymin = 0.2;
     ymax = 0.6;
     return (sin(x)+1)/2*(ymax-ymin)+ymin;
+}
+
+function none(x, y){
+
+}
+
+function diagUlbr(x, y){
+	line(x-radius/2, y-radius/2, x+radius/2, y+radius/2)
+}
+
+function diagUrbl(x, y){
+	line(x+radius/2, y-radius/2, x-radius/2, y+radius/2)
+}
+
+function diagub(x, y){
+	line(x, y-radius/2, x, y+radius/2)
+}
+
+function diaglr(x, y){
+	line(x-radius/2, y, x+radius/2, y)
 }
 
 function nextSaturation(currentSat){
@@ -53,7 +78,7 @@ function addcolor(){
 		for (let ii = 0; ii < nbDots; ii++) {
 			p = colorproba(ii*4*PI/nbDots-PI/2);
 			r = random();
-			console.log(r<p);
+			// console.log(r<p);
 			if (r<p){
 				colors[i][ii] = 1;
 			} else {
@@ -117,9 +142,10 @@ function drawLines(){
 	for (let i = 0; i < nbLines; i++) {
 		for (let ii = 0; ii < nbDots; ii++) {
 			val = colors[i][ii];
-			console.log(val);
-			fill(colR[val],colG[val],colB[val]);
-			ellipse((-(nbDots/2)+ii+1/2)*radius, (-(nbDots/2)+i+1/2)*radius, radius);
+			// console.log(val);
+			stroke(colR[val],colG[val],colB[val]);
+			// ellipse((-(nbDots/2)+ii+1/2)*radius, (-(nbDots/2)+i+1/2)*radius, radius);
+			linefuncs[val]((-(nbDots/2)+ii+1/2)*radius, (-(nbDots/2)+i+1/2)*radius);
 		}
 	}
 }

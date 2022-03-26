@@ -13,6 +13,7 @@ function setup() {
 	nbLines = nbDots;
 	satprmatrix = [[0.7, 0.3],[0.3, 0.7]];
 	createLines();
+
 }
 
 function draw() {
@@ -28,10 +29,10 @@ function scaleValue(x, inmin, inmax, outmin, outmax){
 	return (x-inmin)/(inmax-inmin)*(outmax-outmin)+outmin
 }
 
-function colorproba(x){
-    ymin = 0.2;
-    ymax = 0.6;
-    return (sin(x)+1)/2*(ymax-ymin)+ymin;
+function colorproba(x, pmin, pmax){
+    // ymin = 0.2;
+    // ymax = 0.6;
+    return (sin(x)+1)/2*(pmax-pmin)+pmax;
 }
 
 function nextSaturation(currentSat){
@@ -51,7 +52,7 @@ function createLines(){
 function addcolor(){
 	for (let i = 0; i < nbLines; i++) {
 		for (let ii = 0; ii < nbDots; ii++) {
-			p = colorproba(ii*4*PI/nbDots-PI/2);
+			p = colorproba(scaleValue(ii, 0, nbDots, -PI/2, 3*PI/2), scaleValue(i, 0, nbLines, 0, 0.1), scaleValue(i, 0, nbDots, 0.1, 0.1));
 			r = random();
 			console.log(r<p);
 			if (r<p){

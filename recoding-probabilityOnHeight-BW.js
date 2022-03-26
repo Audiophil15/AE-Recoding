@@ -4,15 +4,16 @@ function setup() {
 	createCanvas(800, 800);
 	radius = 10;
 
-	colR = [255,255,254,208,219]
-	colG = [255,211,202,6  ,94 ]
-	colB = [255,89 ,254,6  ,219]
+	colR = [255,200,165,105,55]
+	colG = [255,200,165,105,55]
+	colB = [255,200,165,105,55]
 
 	colors = [];
 	nbDots = 80;
 	nbLines = nbDots;
 	satprmatrix = [[0.7, 0.3],[0.3, 0.7]];
 	createLines();
+
 }
 
 function draw() {
@@ -24,14 +25,10 @@ function draw() {
 	drawLines();
 }
 
-function scaleValue(x, inmin, inmax, outmin, outmax){
-	return (x-inmin)/(inmax-inmin)*(outmax-outmin)+outmin
-}
-
-function colorproba(x){
-    ymin = 0.2;
-    ymax = 0.6;
-    return (sin(x)+1)/2*(ymax-ymin)+ymin;
+function colorproba(x, pmin, pmax){
+    // ymin = 0.2;
+    // ymax = 0.6;
+    return (sin(x)+1)/2*(pmax-pmin)+pmax;
 }
 
 function nextSaturation(currentSat){
@@ -51,7 +48,7 @@ function createLines(){
 function addcolor(){
 	for (let i = 0; i < nbLines; i++) {
 		for (let ii = 0; ii < nbDots; ii++) {
-			p = colorproba(ii*4*PI/nbDots-PI/2);
+			p = colorproba(ii*4*PI/nbDots-PI/2, i/(2*nbLines), 0.8*i/(nbLines)+0.2);
 			r = random();
 			console.log(r<p);
 			if (r<p){

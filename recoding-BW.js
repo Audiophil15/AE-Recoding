@@ -4,15 +4,16 @@ function setup() {
 	createCanvas(800, 800);
 	radius = 10;
 
-	colR = [255,255,254,208,219]
-	colG = [255,211,202,6  ,94 ]
-	colB = [255,89 ,254,6  ,219]
+	colR = [255,200,165,105,55]
+	colG = [255,200,165,105,55]
+	colB = [255,200,165,105,55]
 
 	colors = [];
 	nbDots = 80;
 	nbLines = nbDots;
 	satprmatrix = [[0.7, 0.3],[0.3, 0.7]];
 	createLines();
+
 }
 
 function draw() {
@@ -22,10 +23,6 @@ function draw() {
 	choosePalette();
 	chooseSaturation();
 	drawLines();
-}
-
-function scaleValue(x, inmin, inmax, outmin, outmax){
-	return (x-inmin)/(inmax-inmin)*(outmax-outmin)+outmin
 }
 
 function colorproba(x){
